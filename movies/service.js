@@ -1,10 +1,9 @@
-
 import logger from '../utils/logger.js';
-import MovieModel from './models/movies-model.js'
+import MovieModel from './models/movies-model.js';
 // const books = booksJson;
 
 // export a method that returns all books
-export const getMovies = async () => {
+export const fetchMovies = async () => {
   try {
     return await MovieModel.find({});
   } catch (error) {
@@ -79,9 +78,8 @@ export const deleteMovie = async (id) => {
 };
 
 export default {
-  getMovies,
+  fetchMovies,
   getMovieById,
-  getMovieByActorId,
   getMoviesByFilter,
   createMovie,
   updateMovie,

@@ -3,7 +3,7 @@ import 'dotenv/config';
 import app from './app.js';
 import { PORT } from './config/index.js';
 import logger from './utils/logger.js';
-import { connect } from './db/mongoose.js';
+import { connect } from './db/mongoos.js';
 
 connect()
   .then(() => {

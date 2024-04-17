@@ -1,5 +1,5 @@
-import actorController from './controller.js';
 import express from 'express';
+import actorController from './controller.js';
 
 const actorsRouter = express.Router();
 
