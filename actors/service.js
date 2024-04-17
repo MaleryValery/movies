@@ -1,8 +1,6 @@
 import logger from '../utils/logger.js';
 import ActorModel from './models/actors-model.js';
-// const books = booksJson;
 
-// export a method that returns all books
 export const getActors = async () => {
   try {
     return await ActorModel.find({});
