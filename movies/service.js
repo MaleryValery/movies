@@ -1,4 +1,4 @@
-import MovieModel from './models/movies.js';
+import MovieModel from './models/movies-model.js';
 
 const getMovies = async () => {
   try {
