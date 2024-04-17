@@ -8,12 +8,10 @@ router.get('/single/:id', movieController.getMovieById);
 router.get('/actor/:movieId', movieController.getMoviesByActorId);
 router.post(
   '/',
-  movieMiddlewares.validateCreateMovie,
-  movieController.createMovie
+movieController.createMovie
 );
 router.put(
   '/:id',
-  movieMiddlewares.validateUpdateMovie,
   movieController.updateMovie
 );
 router.delete('/:id', movieController.deleteMovie);
