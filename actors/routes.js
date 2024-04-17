@@ -3,6 +3,6 @@ import actorController from './controller.js';
 
 const actorsRouter = express.Router();
 
-router.get('movies/', actorController.getActors());
+actorsRouter.get('/', actorController.getActors);
 
 export default actorsRouter;

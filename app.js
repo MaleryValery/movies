@@ -4,11 +4,13 @@ import logger from './utils/logger.js';
 // import mainRouter from './routes.main.js';
 import ActorModel from './actors/models/actors-model.js';
 import movieRouter from './movies/routes.js';
+import actorsRouter from './actors/routes.js';
 
 const app = express();
 app.use(express.json());
 
 app.use('/api/v1/movies', movieRouter);
+app.use('/api/v1/actors', actorsRouter);
 // app.all('*', (req, res, next) => {
 //   req.uuid = uuidv4();
 //   return next();

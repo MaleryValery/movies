@@ -1,7 +1,7 @@
-import { getActors } from 'service.js';
+import actorsService from './service.js';
 
 export const getActors = async (req, res) => {
-  const actors = await getActors();
+  const actors = await actorsService.fetchActors();
   if (!actors) {
     return res.status(404).json({ error: 'actors not found' });
   }

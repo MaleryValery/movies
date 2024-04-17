@@ -1,7 +1,7 @@
 import logger from '../utils/logger.js';
 import ActorModel from './models/actors-model.js';
 
-export const getActors = async () => {
+export const fetchActors = async () => {
   try {
     return await ActorModel.find({});
   } catch (error) {
@@ -76,7 +76,7 @@ export const deleteActors = async (id) => {
 };
 
 export default {
-  getActors,
+  fetchActors,
   getActorsById,
   getActorsByMovieId,
   getActorsByFilter,
