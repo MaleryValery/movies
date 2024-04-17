@@ -3,7 +3,7 @@ import movieService from './service.js';
 
 // export a controller method that returns all movie
 export const getMovies = async (req, res) => {
-  const movies = await movieService.getMovies();
+  const movies = await movieService.fetchMovies();
   if (!movies) {
     return res.status(404).json({ error: 'Movies not found' });
   }
@@ -30,8 +30,6 @@ export const getMoviesByActorId = async (req, res) => {
   return res.json(movies);
 };
 
-
-
 // export a controller method that creates a movie
 export const createMovie = async (req, res) => {
   const movie = req.body;
@@ -56,23 +54,10 @@ export const deleteMovie = async (req, res) => {
 };
 
 export default {
-  getMovies: getMovies,
-  getMovieById: getMovieById,
+  getMovies,
+  getMovieById,
   getMoviesByActorId,
   createMovie,
   updateMovie,
   deleteMovie,
-};
-import { fetchMovies } from './service.js';
-
-export const getMovies = async (req, res) => {
-  const movies = await fetchMovies();
-  if (!movies) {
-    return res.status(404).json({ error: 'Movies not found' });
-  }
-  return res.json(movies);
-};
-
-export default {
-  getMovies,
 };
