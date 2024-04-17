@@ -1,14 +1,12 @@
-// import booksJson from '../jsons/books.json' assert { type: 'json' };
-// import { v4 as uuidv4 } from 'uuid';
-// import BookModel from './models/books.js';
-import logger from '../utils/logger.js';
 
+import logger from '../utils/logger.js';
+import MovieModel from './models/movies-model.js'
 // const books = booksJson;
 
 // export a method that returns all books
 export const getMovies = async () => {
   try {
-    return await MoviesModel.find({});
+    return await MovieModel.find({});
   } catch (error) {
     logger.error(error);
     return null;
@@ -28,7 +26,7 @@ export const getMovieById = async (id) => {
 // export a method that returns books by author id
 export const getMoviesByActorId = async (authorId) => {
   try {
-    return await MoviesModel.find({ authorId });
+    return await MovieModel.find({ authorId });
   } catch (error) {
     logger.error(error);
     return null;
