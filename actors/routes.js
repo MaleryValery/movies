@@ -10,5 +10,4 @@ actorsRouter.post('/', actorController.createActor);
 actorsRouter.put('/single/:id', actorController.updateActor);
 actorsRouter.delete('/single/:id', actorController.deleteActor);
 
-
 export default actorsRouter;
