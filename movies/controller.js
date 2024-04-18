@@ -40,8 +40,8 @@ export const getMoviesByFilter = async (req, res) => {
 // export a controller method that creates a movie
 export const createMovie = async (req, res) => {
   const movie = req.body;
-  const newMovie = await movieService.createMovie(movie);
-  logger.info(`Movie created: ${JSON.stringify(newMovie)} req: ${req.uuid}`);
+  const newMovie = await movieService.addMovie(movie);
+  logger.info(`Movie created: ${JSON.stringify(newMovie)}`);
   return res.status(201).json(newMovie);
 };
 

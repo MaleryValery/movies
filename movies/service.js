@@ -47,7 +47,7 @@ export const fetchMoviesByFilter = async ({ filter, value }) => {
 };
 
 // export a method that creates a Movie
-export const createMovie = async (movie) => {
+export const addMovie = async (movie) => {
   try {
     const newMovie = new MovieModel(movie);
     return await newMovie.save();
@@ -81,7 +81,7 @@ export default {
   fetchMovieById,
   // fetchMoviesByActorId,
   fetchMoviesByFilter,
-  createMovie,
+  addMovie,
   updateMovie,
   deleteMovie,
 };
