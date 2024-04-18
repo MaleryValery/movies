@@ -32,14 +32,11 @@ export const fetchMovieById = async (id) => {
 // };
 
 // export a method that returns Movies filtered by {filter:title||genre, value}
-export const fetchMoviesByFilter = async ({ filter, value }) => {
-  // {filter:'title',value:'foo'}
+export const fetchMoviesByFilter = async ({ type, value }) => {
   try {
-    return await MovieModel.find({
-      [filter]: {
-        $regex: new RegExp(value, 'i'),
-      },
-    });
+    let query = {};
+    query[type] = { $regex: new RegExp(value, 'i') };
+    return await MovieModel.find(query);
   } catch (error) {
     logger.error(error);
     return null;

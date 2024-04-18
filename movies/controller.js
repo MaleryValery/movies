@@ -33,8 +33,8 @@ export const getMovieById = async (req, res) => {
 // export a controller method that returns movies filtered by {filter:title||genre, value}
 export const getMoviesByFilter = async (req, res) => {
   const { type, value } = req.query;
-  const books = await movieService.fetchMoviesByFilter({ type, value });
-  return res.json(books);
+  const movies = await movieService.fetchMoviesByFilter({ type, value });
+  return res.json(movies);
 };
 
 // export a controller method that creates a movie
