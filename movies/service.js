@@ -1,6 +1,5 @@
 import logger from '../utils/logger.js';
 import MovieModel from './models/movies-model.js';
-// const books = booksJson;
 
 // export a method that returns all books
 export const fetchMovies = async () => {
@@ -12,45 +11,42 @@ export const fetchMovies = async () => {
   }
 };
 
-// export a method that returns a book by id
-export const getMovieById = async (id) => {
+// export a method that returns a Movie by id
+export const fetchMovieById = async (id) => {
   try {
-    return await MovieModel.findByID(id);
+    return await MovieModel.findById(id);
   } catch (error) {
     logger.error(error);
     return null;
   }
 };
 
-// export a method that returns books by author id
-export const getMoviesByActorId = async (authorId) => {
+// export a method that returns Movies by actor id
+// export const fetchMoviesByActorId = async (actorId) => {
+//   try {
+//     return await MovieModel.find({ actorId });
+//   } catch (error) {
+//     logger.error(error);
+//     return null;
+//   }
+// };
+
+// export a method that returns Movies filtered by {filter:title||genre, value}
+export const fetchMoviesByFilter = async ({ type, value }) => {
   try {
-    return await MovieModel.find({ authorId });
+    let query = {};
+    query[type] = { $regex: new RegExp(value, 'i') };
+    return await MovieModel.find(query);
   } catch (error) {
     logger.error(error);
     return null;
   }
 };
 
-// export a method that returns books filtered by {filter:title||description, value}
-export const getMoviesByFilter = async ({ filter, value }) => {
-  // {filter:'title',value:'foo'}
+// export a method that creates a Movie
+export const addMovie = async (movie) => {
   try {
-    return await MovieModel.find({
-      [filter]: {
-        $regex: new RegExp(value, 'i'),
-      },
-    });
-  } catch (error) {
-    logger.error(error);
-    return null;
-  }
-};
-
-// export a method that creates a book
-export const createMovie = async (book) => {
-  try {
-    const newMovie = new MovieModel(book);
+    const newMovie = new MovieModel(movie);
     return await newMovie.save();
   } catch (error) {
     logger.error(error);
@@ -58,17 +54,17 @@ export const createMovie = async (book) => {
   }
 };
 
-// export a method that updates a book
-export const updateMovie = async (id, book) => {
+// export a method that updates a Movie
+export const updateMovie = async (id, movie) => {
   try {
-    return await MovieModel.findByIdAndUpdate(id, book, { new: true });
+    return await MovieModel.findByIdAndUpdate(id, movie, { new: true });
   } catch (error) {
     logger.error(error);
     return null;
   }
 };
 
-// export a method that deletes a book
+// export a method that deletes a Movie
 export const deleteMovie = async (id) => {
   try {
     await MovieModel.findByIdAndDelete(id);
@@ -79,9 +75,10 @@ export const deleteMovie = async (id) => {
 
 export default {
   fetchMovies,
-  getMovieById,
-  getMoviesByFilter,
-  createMovie,
+  fetchMovieById,
+  // fetchMoviesByActorId,
+  fetchMoviesByFilter,
+  addMovie,
   updateMovie,
   deleteMovie,
 };
