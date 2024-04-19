@@ -60,7 +60,6 @@ export const deleteActor = async (id) => {
   }
 };
 
-
 export default {
   fetchActors,
   fetchActorById,
