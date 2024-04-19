@@ -20,6 +20,15 @@ export const getMovieById = async (req, res) => {
   return res.json(movie);
 };
 
+export const getActorsByMovieId = async (req, res) => {
+  const { id } = req.params;
+  const movie = await movieService.fetchMovieById(id);
+  if (!movie) {
+    return res.status(404).json({ error: 'movie not found' });
+  }
+  return res.json(movie.actors);
+};
+
 // export a controller method that returns movies by actor id
 // export const getMoviesByActorId = async (req, res) => {
 //   const { actorId } = req.params;
@@ -63,6 +72,7 @@ export const deleteMovie = async (req, res) => {
 export default {
   getMovies,
   getMovieById,
+  getActorsByMovieId,
   // getMoviesByActorId,
   getMoviesByFilter,
   createMovie,
