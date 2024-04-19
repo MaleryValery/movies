@@ -1,7 +1,7 @@
 import logger from '../utils/logger.js';
 import ActorModel from './models/actors-model.js';
 
-export const getActors = async () => {
+export const fetchActors = async () => {
   try {
     return await ActorModel.find({});
   } catch (error) {
@@ -10,53 +10,38 @@ export const getActors = async () => {
   }
 };
 
-// export a method that returns a book by id
-export const getActorsById = async (id) => {
+// export a method that returns an actor by id
+export const fetchActorById = async (id) => {
   try {
-    return await ActorModel.findByID(id);
+    return await ActorModel.findById(id);
   } catch (error) {
     logger.error(error);
     return null;
   }
 };
 
-// export a method that returns books by author id
-export const getActorsByMovieId = async (actorId) => {
+// export a method that returns actors by author id
+// export const fetchActorsByMovieId = async (movieId) => {
+//   try {
+//     return await ActorModel.find({ movieId });
+//   } catch (error) {
+//     logger.error(error);
+//     return null;
+//   }
+// };
+
+// export a method that creates an actor
+export const addActor = async (actor) => {
   try {
-    return await ActorModel.find({ actorId });
+    const newActor = new ActorModel(actor);
+    return await newActor.save();
   } catch (error) {
     logger.error(error);
     return null;
   }
 };
 
-// export a method that returns books filtered by {filter:title||description, value}
-export const getActorsByFilter = async ({ filter, value }) => {
-  // {filter:'title',value:'foo'}
-  try {
-    return await ActorModel.find({
-      [filter]: {
-        $regex: new RegExp(value, 'i'),
-      },
-    });
-  } catch (error) {
-    logger.error(error);
-    return null;
-  }
-};
-
-// export a method that creates a book
-export const createActor = async (actor) => {
-  try {
-    const newMovie = new ActorModel(actor);
-    return await newMovie.save();
-  } catch (error) {
-    logger.error(error);
-    return null;
-  }
-};
-
-// export a method that updates a book
+// export a method that updates an actor
 export const updateActor = async (id, actor) => {
   try {
     return await ActorModel.findByIdAndUpdate(id, actor, { new: true });
@@ -66,8 +51,8 @@ export const updateActor = async (id, actor) => {
   }
 };
 
-// export a method that deletes a book
-export const deleteActors = async (id) => {
+// export a method that deletes an actor
+export const deleteActor = async (id) => {
   try {
     await ActorModel.findByIdAndDelete(id);
   } catch (error) {
@@ -75,12 +60,12 @@ export const deleteActors = async (id) => {
   }
 };
 
+
 export default {
-  getActors,
-  getActorsById,
-  getActorsByMovieId,
-  getActorsByFilter,
-  createActor,
+  fetchActors,
+  fetchActorById,
+  //fetchActorsByMovieId,
+  addActor,
   updateActor,
-  deleteActors,
+  deleteActor,
 };

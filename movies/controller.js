@@ -13,28 +13,35 @@ export const getMovies = async (req, res) => {
 // export a controller method that returns a movie by id
 export const getMovieById = async (req, res) => {
   const { id } = req.params;
-  const movie = await movieService.getMovieById(id);
+  const movie = await movieService.fetchMovieById(id);
   if (!movie) {
     return res.status(404).json({ error: 'movie not found' });
   }
   return res.json(movie);
 };
 
-// export a controller method that returns movies by author id
-export const getMoviesByActorId = async (req, res) => {
-  const { actorId } = req.params;
-  const movies = await movieService.getMoviesByActorId(actorId);
-  if (!movies.length) {
-    console.log('Movies not found for actorId:', actorId);
-  }
+// export a controller method that returns movies by actor id
+// export const getMoviesByActorId = async (req, res) => {
+//   const { actorId } = req.params;
+//   const movies = await movieService.fetchMoviesByActorId(actorId);
+//   if (!movies.length) {
+//     console.log('Movies not found for actorId:', actorId);
+//   }
+//   return res.json(movies);
+// };
+
+// export a controller method that returns movies filtered by {filter:title||genre, value}
+export const getMoviesByFilter = async (req, res) => {
+  const { type, value } = req.query;
+  const movies = await movieService.fetchMoviesByFilter({ type, value });
   return res.json(movies);
 };
 
 // export a controller method that creates a movie
 export const createMovie = async (req, res) => {
   const movie = req.body;
-  const newMovie = await movieService.createMovie(movie);
-  logger.info(`Movie created: ${JSON.stringify(newMovie)} req: ${req.uuid}`);
+  const newMovie = await movieService.addMovie(movie);
+  logger.info(`Movie created: ${JSON.stringify(newMovie)}`);
   return res.status(201).json(newMovie);
 };
 
@@ -56,7 +63,8 @@ export const deleteMovie = async (req, res) => {
 export default {
   getMovies,
   getMovieById,
-  getMoviesByActorId,
+  // getMoviesByActorId,
+  getMoviesByFilter,
   createMovie,
   updateMovie,
   deleteMovie,
