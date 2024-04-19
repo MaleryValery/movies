@@ -1,3 +1,4 @@
+import { creatUpdatedMovie } from '../utils/createUpdatedMovie.js';
 import logger from '../utils/logger.js';
 import MovieModel from './models/movies-model.js';
 
@@ -46,8 +47,9 @@ export const fetchMoviesByFilter = async ({ type, value }) => {
 // export a method that creates a Movie
 export const addMovie = async (movie) => {
   try {
-    const newMovie = new MovieModel(movie);
-    newMovie.actors = Array.from(new Set(newMovie.actors))
+    const parsedData = JSON.parse(JSON.stringify(movie));
+    const newMovie = new MovieModel(parsedData);
+    newMovie.actors = Array.from(new Set(newMovie.actors));
     return await newMovie.save();
   } catch (error) {
     logger.error(error);
@@ -58,9 +60,11 @@ export const addMovie = async (movie) => {
 // export a method that updates a Movie
 export const updateMovie = async (id, movie) => {
   try {
-    movie.actors = Array.from(new Set(movie.actors))
+    const movieById = fetchMovieById(id);
+    movie.actors = Array.from(new Set(movie.actors));
+    const newMovie = creatUpdatedMovie(movieById, movie);
 
-    return await MovieModel.findByIdAndUpdate(id, movie, { new: true });
+    return await MovieModel.findByIdAndUpdate(id, newMovie, { new: true });
   } catch (error) {
     logger.error(error);
     return null;
