@@ -11,16 +11,21 @@ app.use(express.json());
 
 app.use('/api/v1/movies', movieRouter);
 app.use('/api/v1/actors', actorsRouter);
-// app.all('*', (req, res, next) => {
-//   req.uuid = uuidv4();
-//   return next();
-// });
 
-// app.get('/health', (req, res) => {
-//   res.json({ ok: new Date().toDateString(), uuid: req.uuid });
-// });
+app.get('/health', (req, res) => {
+  res.json({ ok: new Date().toDateString()});
+});
 
 // app.use('/api/v1', mainRouter);
+
+app.use((err, req, res, next) => {
+  // Check if the error is related to JSON parsing
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    res.status(400).send({ error: 'Invalid JSON' });
+  } else {
+   next(err);
+  }
+});
 
 // Catch-all error handling middleware
 app.use((err, req, res, next) => {
