@@ -43,11 +43,12 @@ export const createMovieSchema = Joi.object({
 });
 
 export const updateMovieSchema = Joi.object({
-  id: Joi.string().required().external(validateMovieId, 'Validation for movie'),
+  id: Joi.string().forbidden(),
+  _id: Joi.string().forbidden(),
   title: Joi.string().min(1).max(100).optional(),
   // genre: Joi.string().external(validateGenre, 'Validation for genre').optional(),
   genre: Joi.string().min(1).max(100).optional(),
   year: Joi.number().integer().min(0).optional(),
   description: Joi.string().min(50).max(1000).optional(),
   actors: Joi.array().items(Joi.string().external(validateActor, 'Validation for actor')).optional(),
-}).min(2);
+}).min(1);
