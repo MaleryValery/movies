@@ -34,7 +34,7 @@ export const getActorById = async (req, res) => {
 export const createActor = async (req, res) => {
   const actor = req.body;
   const newActor = await actorsService.addActor(actor);
-  logger.info(`Actor created: ${JSON.stringify(newActor)});
+  logger.info(`Actor created: ${JSON.stringify(newActor)}`);
   return res.status(201).json(newActor);
 };
 
