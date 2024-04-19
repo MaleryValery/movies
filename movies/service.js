@@ -47,6 +47,7 @@ export const fetchMoviesByFilter = async ({ type, value }) => {
 export const addMovie = async (movie) => {
   try {
     const newMovie = new MovieModel(movie);
+    newMovie.actors = Array.from(new Set(newMovie.actors))
     return await newMovie.save();
   } catch (error) {
     logger.error(error);
@@ -57,6 +58,8 @@ export const addMovie = async (movie) => {
 // export a method that updates a Movie
 export const updateMovie = async (id, movie) => {
   try {
+    movie.actors = Array.from(new Set(movie.actors))
+
     return await MovieModel.findByIdAndUpdate(id, movie, { new: true });
   } catch (error) {
     logger.error(error);
