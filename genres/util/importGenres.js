@@ -9,7 +9,7 @@ mongoose.connect(MONGO_URL);
 const importGenres = async () => {
   try {
     GenreModel.deleteMany({});
-    const genres = movieGenres.map((genre) => new GenreModel({ name: genre }));
+    const genres = movieGenres.map((genre) => new GenreModel({ name: genre.toLowerCase()}));
     await GenreModel.insertMany(genres);
     console.log('All genres have been successfully imported');
     mongoose.disconnect();
