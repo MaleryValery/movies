@@ -9,6 +9,6 @@ actorsRouter.get('/single/:id', actorController.getActorById);
 //actorsRouter.get('/movie/:actorId', actorController.getActorsByMovieId);
 actorsRouter.post('/', actorValidation.validateAddActor, actorController.createActor);
 actorsRouter.put('/single/:id', actorValidation.validateUpdateActor, actorController.updateActor);
-actorsRouter.delete('/single/:id', actorController.deleteActor);
+actorsRouter.delete('/single/:id', actorValidation.validateDeleteActor, actorController.deleteActor);
 
 export default actorsRouter;
