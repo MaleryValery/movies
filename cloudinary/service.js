@@ -1,6 +1,7 @@
 import { unlink } from 'fs/promises';
 import { v2 as cloudinary } from 'cloudinary';
 import logger from '../utils/logger.js';
+import { updateMovieImage } from '../movies/service.js'
 
 cloudinary.config({
 	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -22,7 +23,26 @@ const getAssetInfo = async (publicId) => {
   }
 };
 
-const uploadImage = async (imagePath, folderPath = '') => {
+// const uploadImage = async (imagePath, folderPath = '') => {
+//   const options = {
+//     use_filename: true,
+//     unique_filename: false,
+//     overwrite: true,
+//     folder: folderPath,
+//   };
+
+//   try {
+//     const result = await cloudinary.uploader.upload(imagePath, options);
+//     logger.info(`Image uploaded successfully: ${JSON.stringify(result, null, 2)}`);
+//     await unlink(imagePath); // Delete the file after upload
+//     return result;
+//   } catch (error) {
+//     console.error(error);
+//     throw error; // Ensure error is propagated up, so the file is not deleted if upload fails
+//   }
+// };
+
+const uploadImage = async (movieId, imagePath, folderPath = '') => {
   const options = {
     use_filename: true,
     unique_filename: false,
@@ -34,12 +54,15 @@ const uploadImage = async (imagePath, folderPath = '') => {
     const result = await cloudinary.uploader.upload(imagePath, options);
     logger.info(`Image uploaded successfully: ${JSON.stringify(result, null, 2)}`);
     await unlink(imagePath); // Delete the file after upload
+    const url = result.secure_url;
+    updateMovieImage(movieId, url);
     return result;
   } catch (error) {
     console.error(error);
     throw error; // Ensure error is propagated up, so the file is not deleted if upload fails
   }
 };
+
 
 const destroy = async (publicId) => {
   try {
