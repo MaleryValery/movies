@@ -12,7 +12,11 @@ export const fetchAllGenres = async () => {
 
 export const fetchGenreById = async (id) => {
   try {
-    return await GenreModel.findById(id);
+    const regexp = new RegExp(/^[0-9a-fA-F]{24}$/);
+    if (id.match(regexp)) {
+      return await GenreModel.findById(id);
+    }
+    return null;
   } catch (error) {
     logger.error('Error find Genre in MongoDB', error);
     throw new Error('Error fetching Genre in MongoDB', error);
@@ -41,13 +45,18 @@ export const addGenre = async (genreObj) => {
 
 export const deleteGenre = async (id) => {
   try {
-    const result = await GenreModel.deleteOne({ _id: id });
-    if (result.deletedCount === 0) {
-      logger.info(`No genres found by id '${id}'`);
+    const regexp = new RegExp(/^[0-9a-fA-F]{24}$/);
+    if (id.match(regexp)) {
+      const result = await GenreModel.deleteOne({ _id: id });
+      if (result.deletedCount === 0) {
+        logger.info(`No genres found by id '${id}'`);
+        return null;
+      }
+      logger.info(`Genre '${genre.name}' deleted successfully`);
+      return result;
+    } else {
       return null;
     }
-    logger.info(`Genre '${genre.name}' deleted successfully`);
-    return result;
   } catch (error) {
     logger.error('Error deleting Genre in MongoDB', error);
     throw new Error('Error fetching Genre in MongoDB', error);
