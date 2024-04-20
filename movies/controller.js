@@ -21,14 +21,12 @@ export const getMovieById = async (req, res) => {
 };
 
 // export a controller method that returns movies by actor id
-// export const getMoviesByActorId = async (req, res) => {
-//   const { actorId } = req.params;
-//   const movies = await movieService.fetchMoviesByActorId(actorId);
-//   if (!movies.length) {
-//     console.log('Movies not found for actorId:', actorId);
-//   }
-//   return res.json(movies);
-// };
+export const getMoviesByActorId = async (req, res) => {
+  const { actorId } = req.params;
+  const movies = await movieService.fetchMoviesByActorId(actorId);
+  if ((!movies) || (!movies.length)) return res.status(404).json({ error: 'movie not found' });
+  return res.json(movies);
+};
 
 // export a controller method that returns movies filtered by {filter:title||genre, value}
 export const getMoviesByFilter = async (req, res) => {
@@ -63,7 +61,7 @@ export const deleteMovie = async (req, res) => {
 export default {
   getMovies,
   getMovieById,
-  // getMoviesByActorId,
+  getMoviesByActorId,
   getMoviesByFilter,
   createMovie,
   updateMovie,

@@ -23,14 +23,14 @@ export const fetchMovieById = async (id) => {
 };
 
 // export a method that returns Movies by actor id
-// export const fetchMoviesByActorId = async (actorId) => {
-//   try {
-//     return await MovieModel.find({ actorId });
-//   } catch (error) {
-//     logger.error(error);
-//     return null;
-//   }
-// };
+export const fetchMoviesByActorId = async (actorId) => {
+  try {
+    return await MovieModel.find( { actors: { $elemMatch: { $eq: actorId } } } );
+  } catch (error) {
+    logger.error(error);
+    return null;
+  }
+};
 
 // export a method that returns Movies filtered by {filter:title||genre, value}
 export const fetchMoviesByFilter = async ({ type, value }) => {
@@ -83,7 +83,7 @@ export const deleteMovie = async (id) => {
 export default {
   fetchMovies,
   fetchMovieById,
-  // fetchMoviesByActorId,
+  fetchMoviesByActorId,
   fetchMoviesByFilter,
   addMovie,
   updateMovie,
