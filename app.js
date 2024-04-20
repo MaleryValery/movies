@@ -2,10 +2,13 @@ import express from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import logger from './utils/logger.js';
 import mainRouter from './routes-main.js';
+import cloudinaryService from './cloudinary/service.js';
+import getUploadMiddleware from './multer/index.js';
+import bodyParser from 'body-parser';
 
 const app = express();
 app.use(express.json());
-
+app.use(bodyParser.urlencoded({ extended: true }));
 // add uuid for all reqests, loo request typ, path and time
 app.all('*', (req, res, next) => {
   req.uuid = uuidv4();
@@ -23,6 +26,26 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/api/v1', mainRouter);
+
+app.get('/api/v1/images/:publicId', async (req, res) => {
+  logger.info(`Received request to get image:`, req.params.publicId);
+  const data = await cloudinaryService.getAssetInfo(req.params.publicId);
+  if (!data) {
+    return res.status(404).send('Image not found');
+  }
+  res.send({ url: data.secure_url, publicId: data.public_id });
+});
+
+app.post('/api/v1/images', getUploadMiddleware('image-file'), async (req, res) => {
+  logger.info(JSON.stringify({ body: req.body, file: req.file }));
+  logger.info(`Received request to upload image: ${req.file.originalname}`);
+  // upload to cloudinary
+  const result = await cloudinaryService.uploadImage(req.file.path, '');
+  if (!result) {
+    return res.status(500).send('Image upload failed');
+  }
+  res.send(result);
+});
 
 //checking if json is valid
 app.use((err, req, res, next) => {
