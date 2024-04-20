@@ -2,10 +2,6 @@ import express from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import logger from './utils/logger.js';
 // import mainRouter from './routes.main.js';
-import ActorModel from './actors/models/actors-model.js';
-import movieRouter from './movies/routes.js';
-import actorsRouter from './actors/routes.js';
-import genresRouter from './genres/routes.js'
 import mainRouter from './routes-main.js';
 
 const app = express();
