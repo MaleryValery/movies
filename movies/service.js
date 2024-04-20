@@ -1,5 +1,6 @@
 import { createUpdatedMovie } from '../utils/createUpdatedMovie.js';
 import logger from '../utils/logger.js';
+import { ID_REGEX } from '../utils/consts.js';
 import MovieModel from './models/movies-model.js';
 
 // export a method that returns all books
@@ -14,6 +15,7 @@ export const fetchMovies = async () => {
 
 // export a method that returns a Movie by id
 export const fetchMovieById = async (id) => {
+  if (!id.match(ID_REGEX)) return null;
   try {
     return await MovieModel.findById(id);
   } catch (error) {
@@ -24,8 +26,9 @@ export const fetchMovieById = async (id) => {
 
 // export a method that returns Movies by actor id
 export const fetchMoviesByActorId = async (actorId) => {
+  if (!actorId.match(ID_REGEX)) return null;
   try {
-    return await MovieModel.find( { actors: { $elemMatch: { $eq: actorId } } } );
+    return await MovieModel.find({ actors: { $elemMatch: { $eq: actorId } } });
   } catch (error) {
     logger.error(error);
     return null;
@@ -59,6 +62,7 @@ export const addMovie = async (movie) => {
 
 // export a method that updates a Movie
 export const updateMovie = async (id, movie) => {
+  if (!id.match(ID_REGEX)) return null;
   try {
     const movieById = fetchMovieById(id);
     movie.actors = Array.from(new Set(movie.actors));
@@ -73,6 +77,7 @@ export const updateMovie = async (id, movie) => {
 
 // export a method that deletes a Movie
 export const deleteMovie = async (id) => {
+  if (!id.match(ID_REGEX)) return null;
   try {
     await MovieModel.findByIdAndDelete(id);
   } catch (error) {
