@@ -147,6 +147,7 @@ const constructNewMoviesArr = async (movies) => {
 
   const actorIds = movies.map((movie) => movie.actors).flat();
   const actorsBD = await fetchActorsById(actorIds);
+  if (!actorsBD) return null;
   const actorsMap = new Map(actorsBD.map((actorsBD) => [actorsBD._id.toString(), actorsBD]));
 
   movies.forEach((movie) => {
