@@ -57,6 +57,17 @@ export const fetchMoviesByFilter = async ({ type, value }) => {
   }
 };
 
+export const fetchActorsByMovieId = async (id) => {
+  try {
+    const movie = await MovieModel.findById(id);
+    if (!movie?.actors.length) return null;
+    return constructNewMoviesArr(movie);
+  } catch (error) {
+    logger.error(error);
+    return null;
+  }
+};
+
 // export a method that creates a Movie
 export const addMovie = async (movie) => {
   try {
@@ -141,6 +152,7 @@ const constructNewMoviesArr = async (movies) => {
 export default {
   fetchMovies,
   fetchMovieById,
+  fetchActorsByMovieId,
   fetchMoviesByActorId,
   fetchMoviesByFilter,
   addMovie,
