@@ -17,7 +17,6 @@ const movieSchema = new Schema({
     type: String,
     default: '',
   },
-
   //from ACTORS
   actors: {
     type: Array,
