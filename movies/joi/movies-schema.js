@@ -32,7 +32,7 @@ export const createMovieSchema = Joi.object({
   title: Joi.string().min(1).max(100).required(),
   genre: Joi.string().min(1).max(100).alphanum().required(),
   // genre: Joi.string().alphanum().min(1).max(100).required().external(validateGenre, 'Validation for genre'), // TODO add validation if genre exist
-  year: Joi.number().integer().min(0).required(),
+  year: Joi.number().positive().integer().min(0).required(),
   actors: Joi.array()
     .min(1)
     .items(
@@ -49,6 +49,6 @@ export const updateMovieSchema = Joi.object({
   title: Joi.string().min(1).max(100).optional(),
   // genre: Joi.string().external(validateGenre, 'Validation for genre').optional(),
   genre: Joi.string().min(1).max(100).optional(),
-  year: Joi.number().integer().min(0).optional(),
+  year: Joi.number().positive().integer().min(0).optional(),
   actors: Joi.array().min(1).items(Joi.string().external(validateActor, 'Validation for actor')).optional(),
 }).min(1);
