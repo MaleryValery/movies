@@ -6,7 +6,7 @@ const movieRouter = express.Router();
 
 movieRouter.get('/', movieController.getMovies);
 movieRouter.get('/single/:id', movieController.getMovieById);
-// movieRouter.get('/actor/:movieId', movieController.getMoviesByActorId);
+movieRouter.get('/actor/:actorId', movieController.getMoviesByActorId);
 movieRouter.get('/filter', movieController.getMoviesByFilter);
 movieRouter.post('/', movieValidation.validateAddModie, movieController.createMovie);
 movieRouter.put('/single/:id', movieValidation.validateUpdateMovie, movieController.updateMovie);
