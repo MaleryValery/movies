@@ -434,10 +434,20 @@
 				{
 					"name": "images",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image-file",
+									"type": "file",
+									"src": "postman-cloud:///1eeff41a-9ea5-4d50-a4cd-e8bff1165fe8"
+								}
+							]
+						},
 						"url": {
-							"raw": "127.0.0.1:3000/api/v1/images/1713598116066",
+							"raw": "127.0.0.1:3000/api/v1/images/",
 							"host": [
 								"127",
 								"0",
@@ -449,7 +459,7 @@
 								"api",
 								"v1",
 								"images",
-								"1713598116066"
+								""
 							]
 						}
 					},
