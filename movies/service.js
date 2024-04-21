@@ -39,8 +39,8 @@ export const fetchMovieById = async (id) => {
 export const fetchMoviesByActorId = async (actorId) => {
   if (!actorId.match(ID_REGEX)) return null;
   try {
-    return await MovieModel.find({ actors: { $elemMatch: { $eq: actorId } } });
     const movies = await MovieModel.find({ actors: { $elemMatch: { $eq: actorId } } });
+    if (!movies || !movies.length) return null;
     return constructNewMoviesArr(movies);
   } catch (error) {
     logger.error(error);
