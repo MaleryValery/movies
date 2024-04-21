@@ -1,4 +1,4 @@
-import { creatUpdatedMovie } from '../utils/createUpdatedMovie.js';
+import { createUpdatedMovie } from '../utils/createUpdatedMovie.js';
 import logger from '../utils/logger.js';
 import MovieModel from './models/movies-model.js';
 import { fetchActorsById } from '../actors/service.js';
@@ -75,7 +75,7 @@ export const updateMovie = async (id, movie) => {
   try {
     const movieById = fetchMovieById(id);
     movie.actors = Array.from(new Set(movie.actors));
-    const newMovie = creatUpdatedMovie(movieById, movie);
+    const newMovie = createUpdatedMovie(movieById, movie);
 
     return await MovieModel.findByIdAndUpdate(id, newMovie, { new: true });
   } catch (error) {
