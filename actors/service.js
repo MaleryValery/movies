@@ -20,6 +20,15 @@ export const fetchActorById = async (id) => {
   }
 };
 
+export const fetchActorsById = async (ids) => {
+  try {
+    return await ActorModel.find({ _id: { $in: ids } });
+  } catch (error) {
+    logger.error(error);
+    return null;
+  }
+};
+
 // export a method that returns actors by author id
 // export const fetchActorsByMovieId = async (movieId) => {
 //   try {
@@ -63,6 +72,7 @@ export const deleteActor = async (id) => {
 export default {
   fetchActors,
   fetchActorById,
+  fetchActorsById,
   //fetchActorsByMovieId,
   addActor,
   updateActor,
