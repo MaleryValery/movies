@@ -40,6 +40,7 @@ export const fetchMoviesByActorId = async (actorId) => {
   if (!actorId.match(ID_REGEX)) return null;
   try {
     const movies = await MovieModel.find({ actors: { $elemMatch: { $eq: actorId } } });
+    if (!movies || !movies.length) return null;
     return constructNewMoviesArr(movies);
   } catch (error) {
     logger.error(error);
@@ -97,6 +98,22 @@ export const updateMovie = async (id, movie) => {
   } catch (error) {
     logger.error(error);
     return null;
+  }
+};
+
+// export a method that updates a Movie Image
+export const updateMovieImage = async (movieId, url) => {
+  try {
+    let movie = await fetchMovieById(movieId);
+    if (!movie) {
+      logger.info(`Movie with id ${movieId} not found`);
+    } else {
+      movie.picturePath = url;
+      return await MovieModel.findByIdAndUpdate(id, movie, { new: true });
+    }
+  } catch (error) {
+    logger.error(error);
+    throw new Error('Error while update movie image', error);
   }
 };
 
@@ -164,5 +181,6 @@ export default {
   fetchMoviesByFilter,
   addMovie,
   updateMovie,
+  updateMovieImage,
   deleteMovie,
 };
