@@ -23,6 +23,8 @@ export const fetchActorById = async (id) => {
 };
 
 export const fetchActorsById = async (ids) => {
+  const isValidIds = ids.every((id) => id.match(ID_REGEX));
+  if (!isValidIds) return null;
   try {
     return await ActorModel.find({ _id: { $in: ids } });
   } catch (error) {

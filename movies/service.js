@@ -61,6 +61,7 @@ export const fetchMoviesByFilter = async ({ type, value }) => {
 };
 
 export const fetchActorsByMovieId = async (id) => {
+  if (!id.match(ID_REGEX)) return null;
   try {
     const movie = await MovieModel.findById(id);
     if (!movie?.actors.length) return null;
