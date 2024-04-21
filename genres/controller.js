@@ -28,9 +28,8 @@ export const getGenreById = async (req, res) => {
   }
 };
 
-
 export const createGenre = async (req, res) => {
-    try {
+  try {
     const genre = req.body;
     const newGenre = await genreServise.addGenre(genre);
     if (newGenre === null) {
@@ -42,23 +41,23 @@ export const createGenre = async (req, res) => {
   }
 };
 
-export const deleteGenreById = async (req, res) => {
-  try {
-    const genreId = req.params.id;
-    const result = await genreServise.deleteGenre(genreId);
-    if (result === null) {
-      return res.status(404).json({ message: 'Genre not found' });
-    }
-    return res.status(204).send();
-  } catch (error) {
-    logger.error('Error deleting the genre:', error);
-    return res.status(500).json({ message: 'Error deleting the genre' });
-  }
-};
+// export const deleteGenreById = async (req, res) => {
+//   try {
+//     const genreId = req.params.id;
+//     const result = await genreServise.deleteGenre(genreId);
+//     if (result === null) {
+//       return res.status(404).json({ message: 'Genre not found' });
+//     }
+//     return res.status(204).send();
+//   } catch (error) {
+//     logger.error('Error deleting the genre:', error);
+//     return res.status(500).json({ message: 'Error deleting the genre' });
+//   }
+// };
 
 export default {
   getAllGenres,
   getGenreById,
   createGenre,
-  deleteGenreById,
+  // deleteGenreById,
 };

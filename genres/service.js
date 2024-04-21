@@ -43,46 +43,46 @@ export const addGenre = async (genreObj) => {
   }
 };
 
-export const deleteGenre = async (id) => {
-  try {
-    const regexp = new RegExp(/^[0-9a-fA-F]{24}$/);
-    if (id.match(regexp)) {
-      const result = await GenreModel.deleteOne({ _id: id });
-      if (result.deletedCount === 0) {
-        logger.info(`No genres found by id '${id}'`);
-        return null;
-      }
-      logger.info(`Genre '${genre.name}' deleted successfully`);
-      return result;
-    } else {
-      return null;
-    }
-  } catch (error) {
-    logger.error('Error deleting Genre in MongoDB', error);
-    throw new Error('Error fetching Genre in MongoDB', error);
-  }
-};
+// export const deleteGenre = async (id) => {
+//   try {
+//     const regexp = new RegExp(/^[0-9a-fA-F]{24}$/);
+//     if (id.match(regexp)) {
+//       const result = await GenreModel.deleteOne({ _id: id });
+//       if (result.deletedCount === 0) {
+//         logger.info(`No genres found by id '${id}'`);
+//         return null;
+//       }
+//       logger.info(`Genre '${genre.name}' deleted successfully`);
+//       return result;
+//     } else {
+//       return null;
+//     }
+//   } catch (error) {
+//     logger.error('Error deleting Genre in MongoDB', error);
+//     throw new Error('Error fetching Genre in MongoDB', error);
+//   }
+// };
 
-export const checkMovieToGenreExist = async (movie) => {
-  try {
-    const genre = movie.genre;
-    const genreLowerCase = genre.trim().toLowerCase();
-    const genres = await GenreModel.find({ name: genreLowerCase });
-    if (genres.length === 0) {
-      logger.info(`Genre '${genre}' is not in Database. Please check for genres and add a new genre if needed`);
-      return false;
-    }
-    return true;
-  } catch (error) {
-    logger.error('Error fetching Genres in MongoDB', error);
-    throw new Error('Error fetching Genres in MongoDB', error);
-  }
-};
+// export const checkMovieToGenreExist = async (movie) => {
+//   try {
+//     const genre = movie.genre;
+//     const genreLowerCase = genre.trim().toLowerCase();
+//     const genres = await GenreModel.find({ name: genreLowerCase });
+//     if (genres.length === 0) {
+//       logger.info(`Genre '${genre}' is not in Database. Please check for genres and add a new genre if needed`);
+//       return false;
+//     }
+//     return true;
+//   } catch (error) {
+//     logger.error('Error fetching Genres in MongoDB', error);
+//     throw new Error('Error fetching Genres in MongoDB', error);
+//   }
+// };
 
 export default {
   fetchAllGenres,
   fetchGenreById,
   addGenre,
-  deleteGenre,
-  checkMovieToGenreExist,
+  // deleteGenre,
+  // checkMovieToGenreExist,
 };

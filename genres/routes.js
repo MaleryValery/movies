@@ -6,7 +6,6 @@ const genresRouter = express.Router();
 genresRouter.get('/', genresController.getAllGenres);
 genresRouter.get('/:id', genresController.getGenreById);
 genresRouter.post('/', genresController.createGenre);
-genresRouter.delete('/:id', genresController.deleteGenreById);
+// genresRouter.delete('/:id', genresController.deleteGenreById);
 
 export default genresRouter;
-
