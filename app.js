@@ -1,6 +1,7 @@
 import express from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import logger from './utils/logger.js';
+// import mainRouter from './routes.main.js';
 import mainRouter from './routes-main.js';
 import cloudinaryService from './cloudinary/service.js';
 import getUploadMiddleware from './multer/index.js';
