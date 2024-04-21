@@ -1,5 +1,6 @@
 import { createUpdatedMovie } from '../utils/createUpdatedMovie.js';
 import logger from '../utils/logger.js';
+import { ID_REGEX } from '../utils/consts.js';
 import MovieModel from './models/movies-model.js';
 import { fetchActorsById } from '../actors/service.js';
 
@@ -16,6 +17,7 @@ export const fetchMovies = async () => {
 
 // export a method that returns a Movie by id with actors like array of objects
 export const fetchMovieById = async (id) => {
+  if (!id.match(ID_REGEX)) return null;
   try {
     const movie = await MovieModel.findById(id);
     console.log('movie: ', movie);
@@ -35,6 +37,7 @@ export const fetchMovieById = async (id) => {
 
 // export a method that returns Movies by actor id
 export const fetchMoviesByActorId = async (actorId) => {
+  if (!actorId.match(ID_REGEX)) return null;
   try {
     const movies = await MovieModel.find({ actors: { $elemMatch: { $eq: actorId } } });
     return constructNewMoviesArr(movies);
@@ -58,6 +61,7 @@ export const fetchMoviesByFilter = async ({ type, value }) => {
 };
 
 export const fetchActorsByMovieId = async (id) => {
+  if (!id.match(ID_REGEX)) return null;
   try {
     const movie = await MovieModel.findById(id);
     if (!movie?.actors.length) return null;
@@ -83,6 +87,7 @@ export const addMovie = async (movie) => {
 
 // export a method that updates a Movie
 export const updateMovie = async (id, movie) => {
+  if (!id.match(ID_REGEX)) return null;
   try {
     const movieById = fetchMovieById(id);
     movie.actors = Array.from(new Set(movie.actors));
@@ -97,6 +102,7 @@ export const updateMovie = async (id, movie) => {
 
 // export a method that deletes a Movie
 export const deleteMovie = async (id) => {
+  if (!id.match(ID_REGEX)) return null;
   try {
     await MovieModel.findByIdAndDelete(id);
   } catch (error) {
@@ -141,6 +147,7 @@ const constructNewMoviesArr = async (movies) => {
 
   const actorIds = movies.map((movie) => movie.actors).flat();
   const actorsBD = await fetchActorsById(actorIds);
+  if (!actorsBD) return null;
   const actorsMap = new Map(actorsBD.map((actorsBD) => [actorsBD._id.toString(), actorsBD]));
 
   movies.forEach((movie) => {

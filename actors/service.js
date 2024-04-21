@@ -1,4 +1,5 @@
 import logger from '../utils/logger.js';
+import { ID_REGEX } from '../utils/consts.js';
 import ActorModel from './models/actors-model.js';
 
 export const fetchActors = async () => {
@@ -12,6 +13,7 @@ export const fetchActors = async () => {
 
 // export a method that returns an actor by id
 export const fetchActorById = async (id) => {
+  if (!id.match(ID_REGEX)) return null;
   try {
     return await ActorModel.findById(id);
   } catch (error) {
@@ -21,6 +23,8 @@ export const fetchActorById = async (id) => {
 };
 
 export const fetchActorsById = async (ids) => {
+  const isValidIds = ids.every((id) => id.match(ID_REGEX));
+  if (!isValidIds) return null;
   try {
     return await ActorModel.find({ _id: { $in: ids } });
   } catch (error) {
@@ -52,6 +56,7 @@ export const addActor = async (actor) => {
 
 // export a method that updates an actor
 export const updateActor = async (id, actor) => {
+  if (!id.match(ID_REGEX)) return null;
   try {
     return await ActorModel.findByIdAndUpdate(id, actor, { new: true });
   } catch (error) {
@@ -62,6 +67,7 @@ export const updateActor = async (id, actor) => {
 
 // export a method that deletes an actor
 export const deleteActor = async (id) => {
+  if (!id.match(ID_REGEX)) return null;
   try {
     await ActorModel.findByIdAndDelete(id);
   } catch (error) {
