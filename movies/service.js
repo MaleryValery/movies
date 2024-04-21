@@ -2,6 +2,7 @@ import { creatUpdatedMovie } from '../utils/createUpdatedMovie.js';
 import logger from '../utils/logger.js';
 import MovieModel from './models/movies-model.js';
 import { fetchActorById } from '../actors/service.js';
+import ActorModel from '../actors/models/actors-model.js';
 
 // export a method that returns all books
 export const fetchMovies = async () => {
@@ -18,12 +19,13 @@ export const fetchMovies = async () => {
 export const fetchMovieById = async (id) => {
   try {
     const movie = await MovieModel.findById(id);
+    console.log('movie: ', movie);
     if (!movie) {
       logger.error('Movie not found');
       return null;
     }
     let ids = movie.actors;
-    const actorsArr = await constructActorsArr(ids);
+    const actorsArr = await ActorModel.find({ _id: { $in: ids } });
     movie.actors = actorsArr;
     return movie;
   } catch (error) {
@@ -92,36 +94,49 @@ export const deleteMovie = async (id) => {
   }
 };
 
-const constructActorsArr = async (ids) => {
-  try {
-    if (ids.length !== 0) {
-      let actors = await Promise.all(
-        ids.map(async (id) => {
-          const actor = await fetchActorById(id);
-          return actor;
-        })
-      );
-      return actors;
-    }
-    return [];
-  } catch (error) {
-    logger.error('Error while mapping actors objects', error);
-  }
-};
+// const constructActorsArr = async (ids) => {
+//   try {
+//     if (ids.length !== 0) {
+//       let actors = await Promise.all(
+//         ids.map(async (id) => {
+//           const actor = await fetchActorById(id);
+//           return actor;
+//         })
+//       );
+//       return actors;
+//     }
+//     return [];
+//   } catch (error) {
+//     logger.error('Error while mapping actors objects', error);
+//   }
+// };
+
+// const constructNewMoviesArr = async (movies) => {
+//   if (movies.length === 0) {
+//     return [];
+//   }
+//   let newMovies = await Promise.all(
+//     movies.map(async (movie) => {
+//       let ids = movie.actors;
+//       const actorsArr = await constructActorsArr(ids);
+//       movie.actors = actorsArr;
+//       return movie;
+//     })
+//   );
+//   return newMovies;
+// };
 
 const constructNewMoviesArr = async (movies) => {
-  if (movies.length === 0) {
-    return [];
-  }
-  let newMovies = await Promise.all(
-    movies.map(async (movie) => {
-      let ids = movie.actors;
-      const actorsArr = await constructActorsArr(ids);
-      movie.actors = actorsArr;
-      return movie;
-    })
-  );
-  return newMovies;
+  if (!movies.length) return [];
+
+  const actorIds = movies.map((movie) => movie.actors).flat();
+  const actorsBD = await ActorModel.find({ _id: { $in: actorIds } });
+  const actorsMap = new Map(actorsBD.map((actorsBD) => [actorsBD._id.toString(), actorsBD]));
+
+  movies.forEach((movie) => {
+    movie.actors = movie.actors.map((actor) => actorsMap.get(actor));
+  });
+  return movies;
 };
 
 export default {
