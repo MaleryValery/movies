@@ -1,8 +1,7 @@
 import { creatUpdatedMovie } from '../utils/createUpdatedMovie.js';
 import logger from '../utils/logger.js';
 import MovieModel from './models/movies-model.js';
-import { fetchActorById } from '../actors/service.js';
-import ActorModel from '../actors/models/actors-model.js';
+import { fetchActorsById } from '../actors/service.js';
 
 // export a method that returns all books
 export const fetchMovies = async () => {
@@ -25,7 +24,7 @@ export const fetchMovieById = async (id) => {
       return null;
     }
     let ids = movie.actors;
-    const actorsArr = await ActorModel.find({ _id: { $in: ids } });
+    const actorsArr = await fetchActorsById(ids);
     movie.actors = actorsArr;
     return movie;
   } catch (error) {
@@ -130,7 +129,7 @@ const constructNewMoviesArr = async (movies) => {
   if (!movies.length) return [];
 
   const actorIds = movies.map((movie) => movie.actors).flat();
-  const actorsBD = await ActorModel.find({ _id: { $in: actorIds } });
+  const actorsBD = await fetchActorsById(actorIds);
   const actorsMap = new Map(actorsBD.map((actorsBD) => [actorsBD._id.toString(), actorsBD]));
 
   movies.forEach((movie) => {
